@@ -23,6 +23,8 @@ fun AutoSizedText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
+    minFontSize: TextUnit = TextUnit.Unspecified,
+    maxFontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
     fontWeight: FontWeight? = null,
     fontFamily: FontFamily? = null,
@@ -60,11 +62,12 @@ fun AutoSizedText(
         softWrap = softWrap,
         maxLines = maxLines,
         onTextLayout = {
-            if (it.hasVisualOverflow) {
+            if (it.hasVisualOverflow && ((minFontSize != TextUnit.Unspecified && resizedFontSize.value > minFontSize) || minFontSize == TextUnit.Unspecified)) {
                 resizedFontSize.value *= 0.9f
             } else if (
-                fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value
-                || fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value
+                (fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value)
+                || (fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value)
+                && ((maxFontSize != TextUnit.Unspecified && resizedFontSize.value < maxFontSize) || maxFontSize == TextUnit.Unspecified)
             ) {
                 resizedFontSize.value *= 1.1f
             }
@@ -80,6 +83,8 @@ fun AutoSizedText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
+    minFontSize: TextUnit = TextUnit.Unspecified,
+    maxFontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
     fontWeight: FontWeight? = null,
     fontFamily: FontFamily? = null,
@@ -119,11 +124,12 @@ fun AutoSizedText(
         maxLines = maxLines,
         inlineContent = inlineContent,
         onTextLayout = {
-            if (it.hasVisualOverflow) {
+            if (it.hasVisualOverflow && ((minFontSize != TextUnit.Unspecified && resizedFontSize.value > minFontSize) || minFontSize == TextUnit.Unspecified)) {
                 resizedFontSize.value *= 0.9f
             } else if (
-                fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value
-                || fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value
+                (fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value)
+                || (fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value)
+                && ((maxFontSize != TextUnit.Unspecified && resizedFontSize.value < maxFontSize) || maxFontSize == TextUnit.Unspecified)
             ) {
                 resizedFontSize.value *= 1.1f
             }
