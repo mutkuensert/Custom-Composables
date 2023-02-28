@@ -62,6 +62,11 @@ fun AutoSizedText(
         onTextLayout = {
             if (it.hasVisualOverflow) {
                 resizedFontSize.value *= 0.9f
+            } else if (
+                fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value
+                || fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value
+            ) {
+                resizedFontSize.value *= 1.1f
             }
             onTextLayout(it)
         },
@@ -116,6 +121,11 @@ fun AutoSizedText(
         onTextLayout = {
             if (it.hasVisualOverflow) {
                 resizedFontSize.value *= 0.9f
+            } else if (
+                fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value
+                || fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value
+            ) {
+                resizedFontSize.value *= 1.1f
             }
             onTextLayout(it)
         },
