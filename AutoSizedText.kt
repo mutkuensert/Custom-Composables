@@ -81,6 +81,8 @@ fun AutoSizedText(
                 if (intrinsics.maxIntrinsicWidth > it.size.width) {
                     resizedFontSize.value *= 0.9f
                     intrinsics = calculateIntrinsics()
+                } else if (it.didOverflowHeight) {
+                    resizedFontSize.value *= 0.9f
                 }
             }
             onTextLayout(it)
@@ -151,6 +153,8 @@ fun AutoSizedText(
                 if (intrinsics.maxIntrinsicWidth > it.size.width) {
                     resizedFontSize.value *= 0.9f
                     intrinsics = calculateIntrinsics()
+                } else if (it.didOverflowHeight) {
+                    resizedFontSize.value *= 0.9f
                 }
             }
             onTextLayout(it)
