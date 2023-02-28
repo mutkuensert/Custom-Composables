@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
@@ -23,8 +24,8 @@ fun AutoSizedText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
-    minFontSize: TextUnit = TextUnit.Unspecified,
-    maxFontSize: TextUnit = TextUnit.Unspecified,
+    scaleDownUntil: Double? = null,
+    scaleUpUntil: Double? = null,
     fontStyle: FontStyle? = null,
     fontWeight: FontWeight? = null,
     fontFamily: FontFamily? = null,
@@ -45,6 +46,7 @@ fun AutoSizedText(
             mutableStateOf(style.fontSize)
         }
     }
+    val fontScale = LocalDensity.current.fontScale
 
     Text(
         text = text,
@@ -62,12 +64,12 @@ fun AutoSizedText(
         softWrap = softWrap,
         maxLines = maxLines,
         onTextLayout = {
-            if (it.hasVisualOverflow && ((minFontSize != TextUnit.Unspecified && resizedFontSize.value > minFontSize) || minFontSize == TextUnit.Unspecified)) {
+            if (it.hasVisualOverflow && ((scaleDownUntil != null && scaleDownUntil < resizedFontSize.value.value / fontScale) || scaleDownUntil == null)) {
                 resizedFontSize.value *= 0.9f
             } else if (
                 (fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value)
                 || (fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value)
-                && ((maxFontSize != TextUnit.Unspecified && resizedFontSize.value < maxFontSize) || maxFontSize == TextUnit.Unspecified)
+                && ((scaleUpUntil != null && scaleUpUntil > resizedFontSize.value.value / fontScale) || scaleUpUntil == null)
             ) {
                 resizedFontSize.value *= 1.1f
             }
@@ -83,8 +85,8 @@ fun AutoSizedText(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
-    minFontSize: TextUnit = TextUnit.Unspecified,
-    maxFontSize: TextUnit = TextUnit.Unspecified,
+    scaleDownUntil: Double? = null,
+    scaleUpUntil: Double? = null,
     fontStyle: FontStyle? = null,
     fontWeight: FontWeight? = null,
     fontFamily: FontFamily? = null,
@@ -106,6 +108,7 @@ fun AutoSizedText(
             mutableStateOf(style.fontSize)
         }
     }
+    val fontScale = LocalDensity.current.fontScale
 
     Text(
         text = text,
@@ -124,12 +127,12 @@ fun AutoSizedText(
         maxLines = maxLines,
         inlineContent = inlineContent,
         onTextLayout = {
-            if (it.hasVisualOverflow && ((minFontSize != TextUnit.Unspecified && resizedFontSize.value > minFontSize) || minFontSize == TextUnit.Unspecified)) {
+            if (it.hasVisualOverflow && ((scaleDownUntil != null && scaleDownUntil < resizedFontSize.value.value / fontScale) || scaleDownUntil == null)) {
                 resizedFontSize.value *= 0.9f
             } else if (
                 (fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value)
                 || (fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value)
-                && ((maxFontSize != TextUnit.Unspecified && resizedFontSize.value < maxFontSize) || maxFontSize == TextUnit.Unspecified)
+                && ((scaleUpUntil != null && scaleUpUntil > resizedFontSize.value.value / fontScale) || scaleUpUntil == null)
             ) {
                 resizedFontSize.value *= 1.1f
             }
