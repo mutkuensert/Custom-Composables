@@ -6,16 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ParagraphIntrinsics
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,19 +43,6 @@ fun AutoSizedText(
             mutableStateOf(style.fontSize)
         }
     }
-    val density = LocalDensity.current
-    val context = LocalContext.current
-
-    val calculateIntrinsics = {
-        ParagraphIntrinsics(
-            text = text,
-            style = style,
-            density = density,
-            fontFamilyResolver = createFontFamilyResolver(context),
-        )
-    }
-
-    var intrinsics = calculateIntrinsics()
 
     Text(
         text = text,
@@ -78,12 +61,7 @@ fun AutoSizedText(
         maxLines = maxLines,
         onTextLayout = {
             if (it.hasVisualOverflow) {
-                if (intrinsics.maxIntrinsicWidth > it.size.width) {
-                    resizedFontSize.value *= 0.9f
-                    intrinsics = calculateIntrinsics()
-                } else if (it.didOverflowHeight) {
-                    resizedFontSize.value *= 0.9f
-                }
+                resizedFontSize.value *= 0.9f
             }
             onTextLayout(it)
         },
@@ -118,19 +96,6 @@ fun AutoSizedText(
             mutableStateOf(style.fontSize)
         }
     }
-    val density = LocalDensity.current
-    val context = LocalContext.current
-
-    val calculateIntrinsics = {
-        ParagraphIntrinsics(
-            text = text.text,
-            style = style,
-            density = density,
-            fontFamilyResolver = createFontFamilyResolver(context),
-        )
-    }
-
-    var intrinsics = calculateIntrinsics()
 
     Text(
         text = text,
@@ -150,12 +115,7 @@ fun AutoSizedText(
         inlineContent = inlineContent,
         onTextLayout = {
             if (it.hasVisualOverflow) {
-                if (intrinsics.maxIntrinsicWidth > it.size.width) {
-                    resizedFontSize.value *= 0.9f
-                    intrinsics = calculateIntrinsics()
-                } else if (it.didOverflowHeight) {
-                    resizedFontSize.value *= 0.9f
-                }
+                resizedFontSize.value *= 0.9f
             }
             onTextLayout(it)
         },
