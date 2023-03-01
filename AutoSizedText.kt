@@ -18,6 +18,16 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 
+/**
+ * This composable decreases font size
+ * if it can't fit in its parent with given font size.
+ *
+ * @param scaleDownUntil Stops decreasing font size when the font scale is under or equals to
+ * this value even if the device font scale is smaller.
+ * @param scaleUpUntil If the composable decreased the font size down to fit in the parent before
+ * When there is place again, it increases font size until this scale.
+ */
+
 @Composable
 fun AutoSizedText(
     text: String,
@@ -67,7 +77,7 @@ fun AutoSizedText(
             if (it.hasVisualOverflow && ((scaleDownUntil != null && scaleDownUntil < resizedFontSize.value.value / fontScale) || scaleDownUntil == null)) {
                 resizedFontSize.value *= 0.9f
             } else if (
-                (fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value)
+                (fontSize != TextUnit.Unspecified && fontSize.value < resizedFontSize.value.value)
                 || (fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value)
                 && ((scaleUpUntil != null && scaleUpUntil > resizedFontSize.value.value / fontScale) || scaleUpUntil == null)
             ) {
@@ -130,7 +140,7 @@ fun AutoSizedText(
             if (it.hasVisualOverflow && ((scaleDownUntil != null && scaleDownUntil < resizedFontSize.value.value / fontScale) || scaleDownUntil == null)) {
                 resizedFontSize.value *= 0.9f
             } else if (
-                (fontSize != TextUnit.Unspecified && fontSize.isSp && fontSize.value < resizedFontSize.value.value)
+                (fontSize != TextUnit.Unspecified && fontSize.value < resizedFontSize.value.value)
                 || (fontSize == TextUnit.Unspecified && style.fontSize.value < resizedFontSize.value.value)
                 && ((scaleUpUntil != null && scaleUpUntil > resizedFontSize.value.value / fontScale) || scaleUpUntil == null)
             ) {
