@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ fun AutoCompleteTextField(
     onValueChange: (String) -> Unit,
     label: String? = null,
     placeholderText: String? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     data: List<String>
 ) {
     var searchResults by remember { mutableStateOf(listOf<String>()) }
@@ -64,10 +66,16 @@ fun AutoCompleteTextField(
             },
             label = {
                 if (label != null) {
-                    Text(text = label)
+                    Text(text = label, color = Color.Black)
                 }
             },
-            singleLine = true
+            singleLine = true,
+            trailingIcon = trailingIcon,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = Color.Gray,
+                focusedBorderColor = Color.DarkGray
+            ),
+            shape = RoundedCornerShape(8.dp)
         )
 
         AnimatedVisibility(searchResultsVisibility) {
